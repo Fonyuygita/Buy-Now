@@ -1,15 +1,19 @@
+"use client"
 import React from 'react'
 import Menu from './Menu'
 import Link from 'next/link'
 import CartIcon from './CartIcon';
 import Image from 'next/image';
+import { UserButton } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 
 interface Props {
     
 }
 
 const Navbar = (props: Props) => {
-    const user=false;
+    const { isLoaded, isSignedIn, user } = useUser();
+    
     return (
         <div className='h-12 text-red-500 p-4 flex justify-betweeen items-center justify-between border-b-2 border-b-red-500 uppercase md:h-24 lg:px-20 lx:px-40 xl:px-40 fixed top-[6%] z-50 w-full bg-[#111] max-md:p-8'>
 
@@ -40,8 +44,8 @@ const Navbar = (props: Props) => {
                     <Image src="/phone.png" alt='' width={20} height={20}/>
                     <span>+237 627 792 563</span>
                 </div>
-{!user ? (<Link href="/login">Login</Link>) :
- (<Link href="/order">Order</Link>) }
+{!isSignedIn ? (<Link href="/sign-in">Login</Link>) :
+ (<Link href="/order">{user.username}</Link>) }
 <CartIcon/>
 </div>
 
